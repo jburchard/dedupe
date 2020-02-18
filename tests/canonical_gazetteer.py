@@ -1,18 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from __future__ import print_function
-from future.utils import viewitems
 
 import itertools
 import csv
 import exampleIO
 import dedupe
-#import os
+import os
 import time
 import optparse
 import logging
-import platform
-
 
 optp = optparse.OptionParser()
 optp.add_option('-v', '--verbose', dest='verbose', action='count',
@@ -39,7 +35,7 @@ def canonicalImport(filename):
         reader = csv.DictReader(f)
         for i, row in enumerate(reader):
             clean_row = {k: preProcess(v) for (k, v) in
-                         viewitems(row)}
+                         row.items()}
             data_d[filename + str(i)] = clean_row
 
     return data_d, reader.fieldnames
@@ -82,52 +78,48 @@ t0 = time.time()
 
 print('number of known duplicate pairs', len(duplicates_s))
 
-print(platform.system())
+if os.path.exists(settings_file):
+    with open(settings_file, 'rb') as f:
+        gazetteer = dedupe.StaticGazetteer(f)
+else:
+    fields = [{'field': 'name', 'type': 'String'},
+              {'field': 'address', 'type': 'String'},
+              {'field': 'cuisine', 'type': 'String'},
+              {'field': 'city', 'type': 'String'}
+              ]
 
-# raise
+    logger.info('-1')
+    gazetteer = dedupe.Gazetteer(fields)
+    logger.info('0')
+    gazetteer.prepare_training(data_1, data_2, sample_size=10000)
+    logger.info('1')
+    gazetteer.mark_pairs(training_pairs)
+    logger.info('2')
+    gazetteer.train()
+    logger.info('3')
 
-# if os.path.exists(settings_file):
-#     with open(settings_file, 'rb') as f:
-#         gazetteer = dedupe.StaticGazetteer(f)
-# else:
-#     fields = [{'field': 'name', 'type': 'String'},
-#               {'field': 'address', 'type': 'String'},
-#               {'field': 'cuisine', 'type': 'String'},
-#               {'field': 'city', 'type': 'String'}
-#               ]
+    with open(settings_file, 'wb') as f:
+        gazetteer.write_settings(f)
 
-#     logger.info('-1')
-#     gazetteer = dedupe.Gazetteer(fields)
-#     logger.info('0')
-#     gazetteer.prepare_training(data_1, data_2, sample_size=10000)
-#     logger.info('1')
-#     gazetteer.mark_pairs(training_pairs)
-#     logger.info('2')
-#     gazetteer.train()
-#     logger.info('3')
+logger.info('a')
+gazetteer.index(data_2)
+logger.info('b')
+gazetteer.unindex(data_2)
+logger.info('c')
+gazetteer.index(data_2)
 
-#     with open(settings_file, 'wb') as f:
-#         gazetteer.write_settings(f)
+# print candidates
+print('clustering...')
+results = gazetteer.search(
+    data_1, n_matches=1, generator=True)
 
-# logger.info('a')
-# gazetteer.index(data_2)
-# logger.info('b')
-# gazetteer.unindex(data_2)
-# logger.info('c')
-# gazetteer.index(data_2)
+# for a, result in results:
+#     for b, score in result:
+#         print(b, score)
 
-# # print candidates
-# print('clustering...')
-# results = gazetteer.search(
-#     data_1, n_matches=1, generator=True)
+print('Evaluate Clustering')
+confirm_dupes_a = set(frozenset([a, b])
+                      for a, result in results
+                      for b, score in result)
 
-# # for a, result in results:
-# #     for b, score in result:
-# #         print(b, score)
-
-# print('Evaluate Clustering')
-# confirm_dupes_a = set(frozenset([a, b])
-#                       for a, result in results
-#                       for b, score in result)
-
-# evaluateDuplicates(confirm_dupes_a, duplicates_s)
+evaluateDuplicates(confirm_dupes_a, duplicates_s)
