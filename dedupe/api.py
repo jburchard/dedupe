@@ -252,6 +252,8 @@ class DedupeMatching(IntegralMatching):
                     yield ((a_record_id, data[a_record_id]),
                            (b_record_id, data[b_record_id]))
 
+            con.close()
+
     def cluster(self,
                 matches: numpy.ndarray,
                 threshold: float) -> Clusters:
