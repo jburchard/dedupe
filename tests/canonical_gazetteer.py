@@ -23,7 +23,8 @@ if opts.verbose:
         log_level = logging.INFO
     elif opts.verbose >= 2:
         log_level = logging.DEBUG
-logging.getLogger().setLevel(log_level)
+logger = logging.getLogger()
+logger.setLevel(log_level)
 
 # create a random set of training pairs based on known duplicates
 
@@ -89,23 +90,24 @@ else:
               {'field': 'city', 'type': 'String'}
               ]
 
+    logger.info('-1')
     gazetteer = dedupe.Gazetteer(fields)
-    print('0')
+    logger.info('0')
     gazetteer.prepare_training(data_1, data_2, sample_size=10000)
-    print('1')
+    logger.info('1')
     gazetteer.mark_pairs(training_pairs)
-    print('2')
+    logger.info('2')
     gazetteer.train()
-    print('3')
+    logger.info('3')
 
     with open(settings_file, 'wb') as f:
         gazetteer.write_settings(f)
 
-print('a')
+logger.info('a')
 gazetteer.index(data_2)
-print('b')
+logger.info('b')
 gazetteer.unindex(data_2)
-print('c')
+logger.info('c')
 gazetteer.index(data_2)
 
 # print candidates
