@@ -539,6 +539,7 @@ class GazetteerMatching(Matching):
             try:
                 self.temp_dir.cleanup()
             except PermissionError:
+                print('sleeping')
                 import time
                 time.sleep(1)
             else:
