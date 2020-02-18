@@ -90,16 +90,22 @@ else:
               ]
 
     gazetteer = dedupe.Gazetteer(fields)
+    print('0')
     gazetteer.prepare_training(data_1, data_2, sample_size=10000)
+    print('1')
     gazetteer.mark_pairs(training_pairs)
+    print('2')
     gazetteer.train()
+    print('3')
 
     with open(settings_file, 'wb') as f:
         gazetteer.write_settings(f)
 
-
+print('a')
 gazetteer.index(data_2)
+print('b')
 gazetteer.unindex(data_2)
+print('c')
 gazetteer.index(data_2)
 
 # print candidates
