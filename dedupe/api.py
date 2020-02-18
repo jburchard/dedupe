@@ -534,8 +534,8 @@ class GazetteerMatching(Matching):
         self.con.close()
         self.temp_dir.cleanup()
 
-    def __del__(self):
-        self._close()
+    # def __del__(self):
+    #     self._close()
 
     def index(self, data: Data) -> None:  # pragma: no cover
         """
@@ -808,6 +808,7 @@ class ActiveMatching(Matching):
                           processing. If set to `None`, uses all cpus
                           available on the machine.
         """
+        logger.info('hi, hello')
         super().__init__(num_cores, **kwargs)
 
         self.data_model = datamodel.DataModel(variable_definition)
