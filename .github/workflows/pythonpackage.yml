@@ -28,6 +28,8 @@ jobs:
     - name: Integration tests
       run: |
         python tests/canonical.py -vv
+        python tests/canonical_matching.py -vv
+        python tests/canonical_gazetteer.py -vv
     - name: Coveralls
       env:
         COVERALLS_PARALLEL: true
