@@ -515,6 +515,7 @@ class GazetteerMatching(Matching):
 
     def __init__(self, num_cores: Optional[int], **kwargs) -> None:
 
+        logger.info('w')
         super().__init__(num_cores, **kwargs)
 
         logger.info('x')
