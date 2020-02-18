@@ -522,7 +522,7 @@ class GazetteerMatching(Matching):
 
         logger.info('y')
         self.con = sqlite3.connect(self.temp_dir.name + '/blocks.db',
-                                   check_same_thread=False)
+                                   check_same_thread=True)
 
         logger.info('z')
         self.indexed_data: Dict[RecordID, RecordDict] = {}
