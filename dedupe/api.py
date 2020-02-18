@@ -515,18 +515,18 @@ class GazetteerMatching(Matching):
 
     def __init__(self, num_cores: Optional[int], **kwargs) -> None:
 
-        logger.info('w')
-        super().__init__(num_cores, **kwargs)
+        # logger.info('w')
+        # super().__init__(num_cores, **kwargs)
 
-        logger.info('x')
-        self.temp_dir = tempfile.TemporaryDirectory()
+        # logger.info('x')
+        # self.temp_dir = tempfile.TemporaryDirectory()
 
-        logger.info('y')
-        self.con = sqlite3.connect(self.temp_dir.name + '/blocks.db',
-                                   check_same_thread=True)
+        # logger.info('y')
+        # self.con = sqlite3.connect(self.temp_dir.name + '/blocks.db',
+        #                            check_same_thread=True)
 
-        logger.info('z')
-        self.indexed_data: Dict[RecordID, RecordDict] = {}
+        # logger.info('z')
+        # self.indexed_data: Dict[RecordID, RecordDict] = {}
 
     def _close(self):
         self.con.close()
