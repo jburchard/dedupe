@@ -705,7 +705,7 @@ class GazetteerMatching(Matching):
 
         """
         blocks = self.blocks(messy_data)
-        pair_scores = self.score(blocks, threshold=threshold)
+        pair_scores = self.score(list(blocks), threshold=threshold)
         search_results = self.many_to_n(pair_scores, n_matches)
 
         results = self._format_search_results(messy_data, search_results)
