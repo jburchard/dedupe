@@ -528,7 +528,8 @@ class GazetteerMatching(Matching):
                                        check_same_thread=True)
 
             logger.info('z')
-            self.indexed_data: Dict[RecordID, RecordDict] = {}
+
+        self.indexed_data: Dict[RecordID, RecordDict] = {}
 
     def _close(self):
         self.con.close()
