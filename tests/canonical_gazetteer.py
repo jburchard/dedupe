@@ -56,7 +56,7 @@ def evaluateDuplicates(found_dupes, true_dupes):
     print(len(true_positives) / float(len(true_dupes)))
 
 
-settings_file = 'canonical_data_matching_learned_settings'
+settings_file = 'canonical_gazetteer_learned_settings'
 
 data_1, header = canonicalImport('tests/datasets/restaurant-1.csv')
 data_2, _ = canonicalImport('tests/datasets/restaurant-2.csv')

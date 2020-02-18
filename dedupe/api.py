@@ -517,11 +517,14 @@ class GazetteerMatching(Matching):
 
         super().__init__(num_cores, **kwargs)
 
+        print('x')
         self.temp_dir = tempfile.TemporaryDirectory()
 
+        print('y')
         self.con = sqlite3.connect(self.temp_dir.name + '/blocks.db',
                                    check_same_thread=False)
 
+        print('z')
         self.indexed_data: Dict[RecordID, RecordDict] = {}
 
     def _close(self):
