@@ -7,10 +7,12 @@ import itertools
 import csv
 import exampleIO
 import dedupe
-import os
+#import os
 import time
 import optparse
 import logging
+import platform
+
 
 optp = optparse.OptionParser()
 optp.add_option('-v', '--verbose', dest='verbose', action='count',
@@ -80,7 +82,6 @@ t0 = time.time()
 
 print('number of known duplicate pairs', len(duplicates_s))
 
-import platform
 print(platform.system())
 
 # raise
