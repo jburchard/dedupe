@@ -123,3 +123,5 @@ confirm_dupes_a = set(frozenset([a, b])
                       for b, score in result)
 
 evaluateDuplicates(confirm_dupes_a, duplicates_s)
+
+gazetteer._close()
