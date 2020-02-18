@@ -531,7 +531,7 @@ class GazetteerMatching(Matching):
 
     def _close(self):
         self.con.close()
-        self.con.close()
+        del self.con
         self.temp_dir.cleanup()
 
     def __del__(self):
