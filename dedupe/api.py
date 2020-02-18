@@ -252,6 +252,8 @@ class DedupeMatching(IntegralMatching):
                     yield ((a_record_id, data[a_record_id]),
                            (b_record_id, data[b_record_id]))
 
+                pairs.close()
+
             # this explict close shouldn't be necessary (should be
             # handled by connection manager), but it seems to be
             # needed on windows as ot 2020-02- 18
@@ -384,6 +386,8 @@ class RecordLinkMatching(IntegralMatching):
                 for a_record_id, b_record_id in pairs:
                     yield ((a_record_id, data_1[a_record_id]),
                            (b_record_id, data_2[b_record_id]))
+
+                pairs.close()
 
             # this explict close shouldn't be necessary (should be
             # handled by connection manager), but it seems to be
@@ -630,6 +634,8 @@ class GazetteerMatching(Matching):
                     (b_record_id, self.indexed_data[b_record_id]))
                    for a_record_id, b_record_id
                    in pair_block]
+
+        pairs.close()
 
         self.con.execute("ROLLBACK")
 
