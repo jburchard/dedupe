@@ -517,16 +517,16 @@ class GazetteerMatching(Matching):
 
         super().__init__(num_cores, **kwargs)
 
-        temp_file, self.temp_file_path = tempfile.mkstemp()
-        os.close(temp_file)
+        self.temp_dir = tempfile.TemporaryDirectory()
 
-        self.con = sqlite3.connect(self.temp_file_path,
+        self.con = sqlite3.connect(self.temp_dir.name + '/blocks.db',
                                    check_same_thread=False)
+
         self.indexed_data: Dict[RecordID, RecordDict] = {}
 
     def _close(self):
         self.con.close()
-        os.remove(self.temp_file_path)
+        self.temp_dir.cleanup()
 
     def __del__(self):
         self._close()
