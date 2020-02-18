@@ -80,48 +80,53 @@ t0 = time.time()
 
 print('number of known duplicate pairs', len(duplicates_s))
 
-if os.path.exists(settings_file):
-    with open(settings_file, 'rb') as f:
-        gazetteer = dedupe.StaticGazetteer(f)
-else:
-    fields = [{'field': 'name', 'type': 'String'},
-              {'field': 'address', 'type': 'String'},
-              {'field': 'cuisine', 'type': 'String'},
-              {'field': 'city', 'type': 'String'}
-              ]
+import platform
+print(platform.system())
 
-    logger.info('-1')
-    gazetteer = dedupe.Gazetteer(fields)
-    logger.info('0')
-    gazetteer.prepare_training(data_1, data_2, sample_size=10000)
-    logger.info('1')
-    gazetteer.mark_pairs(training_pairs)
-    logger.info('2')
-    gazetteer.train()
-    logger.info('3')
+# raise
 
-    with open(settings_file, 'wb') as f:
-        gazetteer.write_settings(f)
+# if os.path.exists(settings_file):
+#     with open(settings_file, 'rb') as f:
+#         gazetteer = dedupe.StaticGazetteer(f)
+# else:
+#     fields = [{'field': 'name', 'type': 'String'},
+#               {'field': 'address', 'type': 'String'},
+#               {'field': 'cuisine', 'type': 'String'},
+#               {'field': 'city', 'type': 'String'}
+#               ]
 
-logger.info('a')
-gazetteer.index(data_2)
-logger.info('b')
-gazetteer.unindex(data_2)
-logger.info('c')
-gazetteer.index(data_2)
+#     logger.info('-1')
+#     gazetteer = dedupe.Gazetteer(fields)
+#     logger.info('0')
+#     gazetteer.prepare_training(data_1, data_2, sample_size=10000)
+#     logger.info('1')
+#     gazetteer.mark_pairs(training_pairs)
+#     logger.info('2')
+#     gazetteer.train()
+#     logger.info('3')
 
-# print candidates
-print('clustering...')
-results = gazetteer.search(
-    data_1, n_matches=1, generator=True)
+#     with open(settings_file, 'wb') as f:
+#         gazetteer.write_settings(f)
 
-# for a, result in results:
-#     for b, score in result:
-#         print(b, score)
+# logger.info('a')
+# gazetteer.index(data_2)
+# logger.info('b')
+# gazetteer.unindex(data_2)
+# logger.info('c')
+# gazetteer.index(data_2)
 
-print('Evaluate Clustering')
-confirm_dupes_a = set(frozenset([a, b])
-                      for a, result in results
-                      for b, score in result)
+# # print candidates
+# print('clustering...')
+# results = gazetteer.search(
+#     data_1, n_matches=1, generator=True)
 
-evaluateDuplicates(confirm_dupes_a, duplicates_s)
+# # for a, result in results:
+# #     for b, score in result:
+# #         print(b, score)
+
+# print('Evaluate Clustering')
+# confirm_dupes_a = set(frozenset([a, b])
+#                       for a, result in results
+#                       for b, score in result)
+
+# evaluateDuplicates(confirm_dupes_a, duplicates_s)
