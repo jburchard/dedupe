@@ -518,16 +518,14 @@ class GazetteerMatching(Matching):
         logger.info('w')
         super().__init__(num_cores, **kwargs)
 
-        import platform
-        if platform.system() != 'Windows':
-            logger.info('x')
-            self.temp_dir = tempfile.TemporaryDirectory()
+        logger.info('x')
+        self.temp_dir = tempfile.TemporaryDirectory()
 
-            logger.info('y')
-            self.con = sqlite3.connect(self.temp_dir.name + '/blocks.db',
-                                       check_same_thread=True)
+        logger.info('y')
+        self.con = sqlite3.connect(self.temp_dir.name + '/blocks.db',
+                                   check_same_thread=False)
 
-            logger.info('z')
+        logger.info('z')
 
         self.indexed_data: Dict[RecordID, RecordDict] = {}
 
@@ -535,8 +533,8 @@ class GazetteerMatching(Matching):
         self.con.close()
         self.temp_dir.cleanup()
 
-    # def __del__(self):
-    #     self._close()
+    def __del__(self):
+        self._close()
 
     def index(self, data: Data) -> None:  # pragma: no cover
         """
