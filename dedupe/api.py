@@ -535,7 +535,6 @@ class GazetteerMatching(Matching):
 
     def _close(self):
         self.con.close()
-        del self.con
         self.temp_dir.cleanup()
 
     def __del__(self):
@@ -717,7 +716,7 @@ class GazetteerMatching(Matching):
 
         """
         blocks = self.blocks(messy_data)
-        pair_scores = self.score(list(blocks), threshold=threshold)
+        pair_scores = self.score(blocks, threshold=threshold)
         search_results = self.many_to_n(pair_scores, n_matches)
 
         results = self._format_search_results(messy_data, search_results)
