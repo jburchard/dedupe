@@ -23,8 +23,8 @@ jobs:
         pip install -e .
     - name: Integration tests
       run: |
-        python tests/canonical.py -vv
         python tests/canonical_gazetteer.py -vv
+        python tests/canonical.py -vv
         python tests/canonical_matching.py -vv
     - name: Coveralls
       env:
