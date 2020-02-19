@@ -808,6 +808,7 @@ class ActiveMatching(Matching):
         logger.info('hi, hello')
         super().__init__(num_cores, **kwargs)
 
+        logger.info('k')
         self.data_model = datamodel.DataModel(variable_definition)
 
         self.training_pairs: TrainingData
