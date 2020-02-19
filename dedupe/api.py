@@ -511,10 +511,10 @@ class GazetteerMatching(Matching):
 
     def __init__(self, num_cores: Optional[int], **kwargs) -> None:
 
-        print('foo')
+        logger.debug('foo')
         super().__init__(num_cores, **kwargs)
 
-        print('baz')
+        logger.debug('baz')
         self.temp_dir = tempfile.TemporaryDirectory()
 
         self.db = self.temp_dir.name + '/blocks.db'
